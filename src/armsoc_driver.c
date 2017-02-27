@@ -1247,16 +1247,6 @@ ARMSOCCloseScreen(CLOSE_SCREEN_ARGS_DECL)
 	drmmode_screen_fini(pScrn);
 	drmmode_cursor_fini(pScreen);
 
-	/* pScreen->devPrivate holds the root pixmap created around our bo by miCreateResources which is installed
-	 * by fbScreenInit() when called from ARMSOCScreenInit().
-	 * This pixmap should be destroyed in miScreenClose() but this isn't wrapped by fbScreenInit() so to prevent a leak
-	 * we do it here, before calling the CloseScreen chain which would just free pScreen->devPrivate in fbCloseScreen()
-	 */
-	if (pScreen->devPrivate) {
-		(void) (*pScreen->DestroyPixmap)(pScreen->devPrivate);
-		pScreen->devPrivate = NULL;
-	}
-
 	unwrap(pARMSOC, pScreen, CloseScreen);
 	unwrap(pARMSOC, pScreen, BlockHandler);
 	unwrap(pARMSOC, pScreen, CreateScreenResources);
