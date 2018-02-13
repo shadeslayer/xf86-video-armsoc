@@ -171,6 +171,11 @@ canexchange(DrawablePtr pDraw, struct armsoc_bo *src_bo, struct armsoc_bo *dst_b
 		ret = TRUE;
 	}
 
+        /* Deactivate exchange for now -  it leads to missing
+         * content in panel popups.
+         */
+        ret = FALSE;
+
 	return ret;
 }
 
